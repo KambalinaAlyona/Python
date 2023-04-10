@@ -1,3 +1,6 @@
+# Программа для создания одноканального изображения и масштабирования
+# в 2 раза с помощью библиотеки OpenCL
+
 import numpy as np
 from PIL import Image
 import pyopencl as ocl
