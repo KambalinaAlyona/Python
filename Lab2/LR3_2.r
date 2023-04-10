@@ -1,6 +1,9 @@
+# Программа на языке R для реализации алгоритма PCA
+
 if (!require("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 BiocManager::install("mixOmics")
+
 library(mixOmics)
 set.seed(5249)
 library(plsgenomics)
