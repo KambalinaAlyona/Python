@@ -10,7 +10,7 @@ f = open("lab.cl", "r", encoding = "utf-8")
 kernels = ''.join(f.readlines())
 f.close()
 
-def opencl_quantize()
+def opencl_quantize():
 	ctx = cl.Contect(devices=[device], dev_type = None)
     queue = cl.CommandQueue(ctx)
 	mf = cl.mem_flags
