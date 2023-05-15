@@ -3,35 +3,35 @@
 
 import numpy as np
 from PIL import Image
-import pyopencl as ocl
+import pyopencl as cl
 import timeit
 
-f = open("lab.cl", "r", encoding = "utf-8")
+f = open("lab.cl", "r", encoding="utf-8")
 kernels = ''.join(f.readlines())
 f.close()
 
+
 def opencl_quantize():
-	ctx = cl.Contect(devices=[device], dev_type = None)
+    ctx = cl.Contect(devices=[device], dev_type = None)
     queue = cl.CommandQueue(ctx)
-	mf = cl.mem_flags
-	
-	quantize = cl.Program(ctx, kernels).build().quantize
-	
-	red = np.array(channels[0]).astype(np.uint8)
-	green = np.array(channels[1]).astype(np.uint8)
-	blue = np.array(channels[2]).astype(np.uint8)
-	
-	red_g = cl.Buffer(ctx, mf.READ_WRITE | mf.COPY_HOST_PTR, hostbuf = red)
-	green_g = cl.Buffer(ctx, mf.READ_WRITE | mf.COPY_HOST_PTR, hostbuf = green)
-	blue_g = cl.Buffer(ctx, mf.READ_WRITE | mf.COPY_HOST_PTR, hostbuf = blue)
-	
-	quantize(queue, red.shape, (8, 16), red_g, green_g, blue_g)
-	
-	cl.enqueue_copy(queue, red, red_g)
-	cl.enqueue_copy(queue, green, green_g)
-	cl.enqueue_copy(queue, blue, blue_g)
-	
-	return red, green, blue
+    mf = cl.mem_flags
+    quantize = cl.Program(ctx, kernels).build().quantize
+    red = np.array(channels[0]).astype(np.uint8)
+    green = np.array(channels[1]).astype(np.uint8)
+    blue = np.array(channels[2]).astype(np.uint8)
+    red_g = cl.Buffer(ctx, mf.READ_WRITE | 
+                      mf.COPY_HOST_PTR, hostbuf = red)
+    green_g = cl.Buffer(ctx, mf.READ_WRITE |
+                        mf.COPY_HOST_PTR, hostbuf = green)
+    blue_g = cl.Buffer(ctx, mf.READ_WRITE |
+                       mf.COPY_HOST_PTR, hostbuf = blue)
+    quantize(queue, red.shape, (8, 16), red_g, green_g, blue_g)
+    
+    cl.enqueue_copy(queue, red, red_g)
+    cl.enqueue_copy(queue, green, green_g)
+    cl.enqueue_copy(queue, blue, blue_g)
+    
+    return red, green, blue
 	
 source_dir = './Source_Files/'
 result_dir = './Result_Files/'
