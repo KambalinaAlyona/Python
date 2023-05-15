@@ -1,0 +1,20 @@
+﻿jobs:
+  include:
+    - stage: check_pep8
+      language: python
+      python:
+        - 3.6
+        - 3.7
+        - 3.8
+        - 3.9
+        - 3.10
+      os:
+        - linux
+        - windows
+      before_install:
+        - python -m pip install flake8
+      install:
+        - pip3 install --upgrade pip
+        - pip install -r requirements.txt
+      script:
+        - ./script.sh
